@@ -21,9 +21,9 @@
                                <td>{{ item.lastname }}</td>
                                <td>{{ item.address }}</td>
                                <td>
+                                   <router-link :to="{name: 'edit', params: { id: item.id }}" class="btn btn-primary">Edit</router-link>
                                    <a href="#" class="btn btn-secondary btn-danger" @click="delemployee(key, item.id)">Delete</a>
-                                   <a href="#" class="btn btn-secondary btn-info" @click="updateemployee(key)">Update</a>
-                               </td>
+                                </td>
 
                            </tr>
                            </tbody>
@@ -58,9 +58,7 @@
                     .catch((error) => this.errors=error.response.data.errors)
             },
 
-            updateemployee(key) {
-                this.$children[1].list = this.lists[key]
-            }
+
         },
 
         created() {

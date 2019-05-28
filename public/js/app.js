@@ -1875,15 +1875,27 @@ __webpack_require__.r(__webpack_exports__);
     updateEmployee: function updateEmployee() {
       var _this = this;
 
-      axios.post('/employee', this.$data.list).then(function (response) {
-        _this.$router.push('/home');
+      var uri = '/employee/' + this.$route.params.id;
+      axios.patch(uri, this.list).then(function (response) {
+        _this.list = response.data;
+
+        _this.$router.push({
+          name: 'home'
+        });
       })["catch"](function (error) {
         return _this.errors = error.response.data.errors;
       });
     }
   },
-  mounted: function mounted() {
-    console.log('Component mounted.');
+  created: function created() {
+    var _this2 = this;
+
+    var uri = '/employee/' + this.$route.params.id + '/edit';
+    axios.get(uri).then(function (response) {
+      _this2.list = response.data;
+    })["catch"](function (error) {
+      return _this2.errors = error.response.data.errors;
+    });
   }
 });
 
@@ -1961,9 +1973,6 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         return _this2.errors = error.response.data.errors;
       });
-    },
-    updateemployee: function updateemployee(key) {
-      this.$children[1].list = this.lists[key];
     }
   },
   created: function created() {
@@ -37539,11 +37548,7 @@ var render = function() {
                 {
                   staticClass: "btn btn-primary",
                   attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      return _vm.updateEmployee()
-                    }
-                  }
+                  on: { click: _vm.updateEmployee }
                 },
                 [_vm._v("Update")]
               )
@@ -37605,35 +37610,36 @@ var render = function() {
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.address))]),
                     _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "a",
-                        {
-                          staticClass: "btn btn-secondary btn-danger",
-                          attrs: { href: "#" },
-                          on: {
-                            click: function($event) {
-                              return _vm.delemployee(key, item.id)
+                    _c(
+                      "td",
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            staticClass: "btn btn-primary",
+                            attrs: {
+                              to: { name: "edit", params: { id: item.id } }
                             }
-                          }
-                        },
-                        [_vm._v("Delete")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass: "btn btn-secondary btn-info",
-                          attrs: { href: "#" },
-                          on: {
-                            click: function($event) {
-                              return _vm.updateemployee(key)
+                          },
+                          [_vm._v("Edit")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-secondary btn-danger",
+                            attrs: { href: "#" },
+                            on: {
+                              click: function($event) {
+                                return _vm.delemployee(key, item.id)
+                              }
                             }
-                          }
-                        },
-                        [_vm._v("Update")]
-                      )
-                    ])
+                          },
+                          [_vm._v("Delete")]
+                        )
+                      ],
+                      1
+                    )
                   ])
                 }),
                 0
@@ -52973,13 +52979,16 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   routes: [{
-    path: "/home",
+    name: 'home',
+    path: '/home',
     component: _components_employee_Employee__WEBPACK_IMPORTED_MODULE_3__["default"]
   }, {
-    path: "/create",
+    name: 'create',
+    path: '/create',
     component: _components_employee_Create_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   }, {
-    path: "/edit",
+    name: 'edit',
+    path: "/edit/:id",
     component: _components_employee_Edit__WEBPACK_IMPORTED_MODULE_4__["default"]
   }]
 });

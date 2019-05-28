@@ -31,14 +31,7 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
-/*//        Employee::create([
-//            'firstname'          => $request->firstname,
-//            'lastname'           =>  $request->lastname,
-//            'address'           =>  $request->address,
-//
-//        ]);*/
-
-         Employee::create($request->all());
+      Employee::create($request->all());
     }
 
 
@@ -50,13 +43,17 @@ class EmployeeController extends Controller
 
     public function edit($id)
     {
-        //
+        return Employee::find($id);
     }
 
 
     public function update(Request $request, $id)
     {
-        //
+        $employee = Employee::find($id);
+
+        $employee->update($request->all());
+
+        return response()->json('successfully updated');
     }
 
 

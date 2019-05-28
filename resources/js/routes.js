@@ -12,15 +12,18 @@ Vue.use(VueRouter)
 const router =new VueRouter({
     routes: [
         {
-            path: "/home",
+            name: 'home',
+            path: '/home',
             component: Employee
         },
         {
-            path: "/create",
+            name: 'create',
+            path: '/create',
             component: Create
         },
         {
-            path: "/edit",
+            name: 'edit',
+            path: "/edit/:id",
             component: Edit
         }
     ]

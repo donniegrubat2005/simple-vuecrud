@@ -21,7 +21,7 @@
                                 <label>Address</label>
                                 <input type="text" name="address" id="address" v-model="list.address" class="form-control">
                             </div>
-                            <button type="button" class="btn btn-primary" @click="updateEmployee()">Update</button>
+                            <button type="button" class="btn btn-primary" @click="updateEmployee">Update</button>
                         </form>
                     </div>
                 </div>
@@ -43,14 +43,22 @@
 
         methods: {
             updateEmployee() {
-                axios.post('/employee',this.$data.list).then((response)=> {
-                    this.$router.push('/home')
-                })
-                    .catch((error) => this.errors=error.response.data.errors)
+                let uri = '/employee/' + this.$route.params.id;
+                axios.patch(uri, this.list)
+                    .then((response) => {
+                        this.list = response.data;
+                        this.$router.push({name: 'home'});
+                    })
+                    .catch((error) => this.errors = error.response.data.errors)
             }
         },
-        mounted() {
-            console.log('Component mounted.')
+        created() {
+            let uri = '/employee/'+this.$route.params.id+'/edit';
+            axios.get(uri)
+                .then((response) => {
+                    this.list = response.data;
+                })
+                .catch((error) => this.errors=error.response.data.errors)
         },
     }
 </script>
