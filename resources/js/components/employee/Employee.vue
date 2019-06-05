@@ -40,22 +40,23 @@
         data() {
             return {
                 lists: {},
-                errors: {}
+                error: null
             }
+
         },
 
         methods: {
             loadEmployees() {
                 axios.post('/getAll')
                     .then((response) => (this.lists = response.data))
-                    .catch((error) => this.errors=error.response.data.errors)
+                    .catch((error) => this.error=error.response.data.error)
             },
 
             delemployee(key, id) {
                 console.log(`${key} ${id}`)
                 axios.delete(`/employee/${id}`)
                     .then((response) => this.lists.splice(key,1))
-                    .catch((error) => this.errors=error.response.data.errors)
+                    .catch((error) => this.error=error.response.data.error)
             },
 
 
